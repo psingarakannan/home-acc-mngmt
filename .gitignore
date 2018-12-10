@@ -16,3 +16,4 @@ build/
 eze-tools/jposee-server/ezweb/ezweb
 .idea
 *.iml
+*.jar
