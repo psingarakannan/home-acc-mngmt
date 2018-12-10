@@ -1,0 +1,34 @@
+package org.pradeep.exp.mngmt.entities.service;
+
+import org.pradeep.exp.mngmt.entities.Expense;
+import org.pradeep.exp.mngmt.entities.repository.ExpenseRepository;
+import org.pradeep.exp.mngmt.enums.ExpenseCategory;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * @author psingarakannan on 9/12/18
+ **/
+public interface ExpenseEntityService {
+    ExpenseRepository getDao();
+
+    Expense findById(Long id);
+    List<Expense> findAll();
+    List<Expense> findByIds(Collection<Long> ids);
+
+    void saveOrUpdate(Expense entity);
+    void saveOrUpdateInTransaction(Expense entity);
+    void saveOrUpdateAll(Collection<Expense> entity);
+
+    void delete(Long id);
+    void delete(Expense entity);
+    void deleteAll(Expense entity);
+    void deleteInBatch(Collection<Expense> entities);
+
+    List<Expense> findByExpenseCategory(ExpenseCategory expenseCategory);
+
+
+}
+
