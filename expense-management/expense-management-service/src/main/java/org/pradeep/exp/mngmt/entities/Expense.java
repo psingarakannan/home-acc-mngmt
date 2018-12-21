@@ -17,7 +17,7 @@ import java.util.Date;
 @Table(name="expenses", indexes = { @Index(name="expense_k1", columnList="expense_category"),
         @Index(name="expense_k12", columnList="spent_date")})
 
-public class Expense {
+public class Expense extends AuditedEntity{
 
 
 

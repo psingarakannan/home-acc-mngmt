@@ -29,4 +29,6 @@ public class ExpenseInput {
 
     @Getter @Setter
     private AccountCategory accountCategory;
+
+
 }

@@ -13,10 +13,13 @@ public enum ExpenseCategory {
     RENT("Rent"),
     CHIT_FUND("Chit Fund"),
     INVESTMENT("Investment"),
+    OTHERS("Others"),
     TRAVEL("Travel");
     public enum SubType{
         MALIGAI("Maligai"),
+        OTHERS("Others"),
         VEG("Veg"),
+        MEAT("Meat"),
         MILK("Milk"),
         WATER("Water"),
         LIFE_INSURANCE("Life Insurance"),

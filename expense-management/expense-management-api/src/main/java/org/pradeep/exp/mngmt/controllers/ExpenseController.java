@@ -1,9 +1,11 @@
 package org.pradeep.exp.mngmt.controllers;
 
+import org.pradeep.exp.mngmt.beans.ExcelInput;
 import org.pradeep.exp.mngmt.beans.ExpenseInput;
 import org.pradeep.exp.mngmt.beans.ExpenseOutput;
 import org.pradeep.exp.mngmt.entities.Expense;
 import org.pradeep.exp.mngmt.entities.service.ExpenseEntityService;
+import org.pradeep.exp.mngmt.service.XLService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,11 +20,15 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/expense")
-public class ExpenseController {
+public class ExpenseController  {
 
     @Autowired
     @Qualifier("expenseEntityService")
     private ExpenseEntityService expenseEntityService;
+
+    @Autowired
+    private XLService xlService;
+
     @GetMapping ("/ping")
     public String ping(){
         return "pong";
@@ -53,6 +59,17 @@ public class ExpenseController {
         return new ExpenseOutput ();
     }
 
+    @PostMapping ("/excel")
+    public @ResponseBody  ExpenseOutput addExpensesThruExcel(@RequestBody ExcelInput excelInput) throws Exception{
 
+        List<ExpenseInput> expenseInputList = xlService.mapExcelToExpenseInput ( excelInput );
 
+        expenseInputList
+                .forEach ( expenseInput1->{
+                    Expense expense = new Expense () ;
+                    BeanUtils.copyProperties ( expenseInput1, expense );
+                    expenseEntityService.saveOrUpdate ( expense );
+                } );
+        return new ExpenseOutput ();
+    }
 }

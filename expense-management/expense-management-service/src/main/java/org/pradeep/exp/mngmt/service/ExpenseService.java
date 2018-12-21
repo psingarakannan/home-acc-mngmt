@@ -8,7 +8,7 @@ import org.pradeep.exp.mngmt.beans.ExpenseOutput;
  **/
 public class ExpenseService {
 
-    public ExpenseOutput callAp(ExpenseInput expenseInput){
+    public ExpenseOutput callApi(ExpenseInput expenseInput){
 
 
         return new ExpenseOutput ();

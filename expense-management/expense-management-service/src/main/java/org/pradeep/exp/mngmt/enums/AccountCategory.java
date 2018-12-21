@@ -12,6 +12,7 @@ public enum AccountCategory {
     P_DC_HDFC("Pradeep HDFC Debit Card"),
     K_DC_HDFC("Kalai HDFC Debit Card"),
     P_DC_SBI("Pradeep SBI Debit Card"),
+    P_SODEXO("Pradeep Sodexo Card"),
     P_CASH("Pradeep Cash"),
     K_CASH("Kalai Cash");
 
