@@ -10,6 +10,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>expense-management</module>
+        <module>platform</module>
+        <module>acc-mngmt</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

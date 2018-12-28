@@ -5,7 +5,7 @@ import flexjson.JSONSerializer;
 /**
  * @author psingarakannan on 20/12/18
  **/
-public class ExpenseHelper {
+public class CoreHelper {
 
     public static String deepSerialize(Object o) {
         JSONSerializer ser = (new JSONSerializer()).transform(new ExcludeNullTransformer(), new Class[]{Void.TYPE});
