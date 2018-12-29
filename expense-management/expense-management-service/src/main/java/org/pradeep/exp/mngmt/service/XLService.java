@@ -5,11 +5,11 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.joda.time.DateTime;
-import org.pradeep.exp.mngmt.beans.ExcelInput;
-import org.pradeep.exp.mngmt.beans.ExpenseInput;
-import org.pradeep.exp.mngmt.enums.AccountCategory;
-import org.pradeep.exp.mngmt.enums.ExpenseCategory;
-import org.pradeep.exp.mngmt.utils.CoreHelper;
+import org.pradeep.platform.beans.ExcelInput;
+import org.pradeep.platform.beans.ExpenseInput;
+import org.pradeep.platform.enums.AccountCategory;
+import org.pradeep.platform.enums.ExpenseCategory;
+import org.pradeep.platform.utils.CoreHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -90,6 +90,7 @@ public class XLService {
                 false);
 
         ExpenseInput expenseInput = new ExpenseInput ();
+        expenseInput.setCellIndex ( row.getSheet ().getSheetName () +"::"+ row.getRowNum () );
 
         targetStream
                 .forEach ( cell -> fetchData ( cell, expenseInput )  );

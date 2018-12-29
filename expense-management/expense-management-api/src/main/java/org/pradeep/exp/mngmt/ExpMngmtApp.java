@@ -1,6 +1,6 @@
 package org.pradeep.exp.mngmt;
 
-import org.pradeep.exp.mngmt.constants.C;
+import org.pradeep.platform.constants.C;
 import org.springframework.boot .SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

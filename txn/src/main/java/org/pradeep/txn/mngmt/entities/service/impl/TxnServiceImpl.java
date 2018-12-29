@@ -1,10 +1,11 @@
-package org.pradeep.exp.mngmt.entities.service.impl;
+package org.pradeep.txn.mngmt.entities.service.impl;
 
 import org.hibernate.Session;
-import org.pradeep.exp.mngmt.entities.Expense;
-import org.pradeep.exp.mngmt.entities.repository.ExpenseRepository;
-import org.pradeep.exp.mngmt.entities.service.ExpenseEntityService;
+import org.pradeep.platform.enums.AccountCategory;
 import org.pradeep.platform.enums.ExpenseCategory;
+import org.pradeep.txn.mngmt.entities.Txn;
+import org.pradeep.txn.mngmt.entities.repository.TxnRepository;
+import org.pradeep.txn.mngmt.entities.service.TxnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,51 +16,50 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author psingarakannan on 9/12/18
+ * @author psingarakannan on 28/12/18
  **/
-@Service("expenseEntityService")
-public class ExpenseEntityServiceImpl implements ExpenseEntityService {
+@Service
+public class TxnServiceImpl implements TxnService {
     @Autowired
-    private ExpenseRepository expenseRepository;
+    private TxnRepository txnRepository;
+
     @PersistenceContext
     private EntityManager entityManager;
 
+
     @Override
-    public ExpenseRepository getDao() {
-        return this.expenseRepository;
+    public TxnRepository getDao() {
+        return this.txnRepository;
     }
 
     @Override
-    public Expense findById(Long id) {
+    public Txn findById(Long id) {
         return getDao ().findById ( id.toString () ).orElseGet ( null );
     }
 
     @Override
-    public List<Expense> findAll() {
-        return getDao ().findAll ();
-    }
+    public List<Txn> findAll() {
+        return getDao ().findAll ();    }
 
     @Override
-    public List <Expense> findByIds(Collection<Long> ids) {
-
+    public List <Txn> findByIds(Collection<Long> ids) {
         return ids
                 .parallelStream ()
                 .map ( this::findById )
-                .collect ( Collectors.toList () );
-    }
+                .collect ( Collectors.toList () );    }
 
     @Override
-    public void saveOrUpdate(Expense entity) {
+    public void saveOrUpdate(Txn entity) {
         saveOrUpdateInTransaction ( entity );
     }
 
     @Override
-    public void saveOrUpdateInTransaction(Expense entity) {
+    public void saveOrUpdateInTransaction(Txn entity) {
         entityManager.unwrap(Session.class).saveOrUpdate(entity);
     }
 
     @Override
-    public void saveOrUpdateAll(Collection <Expense> entity) {
+    public void saveOrUpdateAll(Collection <Txn> entity) {
         entity
                 .parallelStream ()
                 .forEach ( this::saveOrUpdateInTransaction );
@@ -71,23 +71,27 @@ public class ExpenseEntityServiceImpl implements ExpenseEntityService {
     }
 
     @Override
-    public void delete(Expense entity) {
+    public void delete(Txn entity) {
         getDao ().delete ( entity );
     }
 
     @Override
-    public void deleteAll(Expense entity) {
+    public void deleteAll(Txn entity) {
         getDao ().deleteAll ();
     }
 
     @Override
-    public void deleteInBatch(Collection <Expense> entities) {
+    public void deleteInBatch(Collection <Txn> entities) {
         getDao ().deleteInBatch ( entities );
     }
 
     @Override
-    public List <Expense> findByExpenseCategory(ExpenseCategory expenseCategory) {
-        return getDao ().findByExpenseCategory ( expenseCategory );
+    public List <Txn> findByExpenseCategory(ExpenseCategory expenseCategory) {
+        return null;
     }
 
+    @Override
+    public List <Txn> findByAccountCategory(AccountCategory accountCategory) {
+        return null;
+    }
 }

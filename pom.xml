@@ -12,6 +12,7 @@
         <module>expense-management</module>
         <module>platform</module>
         <module>acc-mngmt</module>
+        <module>txn</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

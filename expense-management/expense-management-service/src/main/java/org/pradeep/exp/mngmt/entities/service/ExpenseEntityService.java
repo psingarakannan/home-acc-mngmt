@@ -2,8 +2,7 @@ package org.pradeep.exp.mngmt.entities.service;
 
 import org.pradeep.exp.mngmt.entities.Expense;
 import org.pradeep.exp.mngmt.entities.repository.ExpenseRepository;
-import org.pradeep.exp.mngmt.enums.ExpenseCategory;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.pradeep.platform.enums.ExpenseCategory;
 
 import java.util.Collection;
 import java.util.List;

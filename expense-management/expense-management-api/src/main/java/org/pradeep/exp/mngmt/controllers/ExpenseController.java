@@ -1,8 +1,8 @@
 package org.pradeep.exp.mngmt.controllers;
 
-import org.pradeep.exp.mngmt.beans.ExcelInput;
-import org.pradeep.exp.mngmt.beans.ExpenseInput;
-import org.pradeep.exp.mngmt.beans.ExpenseOutput;
+import org.pradeep.platform.beans.ExcelInput;
+import org.pradeep.platform.beans.ExpenseInput;
+import org.pradeep.platform.beans.ExpenseOutput;
 import org.pradeep.exp.mngmt.entities.Expense;
 import org.pradeep.exp.mngmt.entities.service.ExpenseEntityService;
 import org.pradeep.exp.mngmt.service.XLService;

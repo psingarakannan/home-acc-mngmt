@@ -2,9 +2,9 @@ package org.pradeep.exp.mngmt.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.pradeep.exp.mngmt.enums.AccountCategory;
-import org.pradeep.exp.mngmt.enums.ExpenseCategory;
+import org.pradeep.platform.enums.AccountCategory;
+import org.pradeep.platform.enums.ExpenseCategory;
+import org.pradeep.platform.hibernate.AuditedEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -17,7 +17,7 @@ import java.util.Date;
 @Table(name="expenses", indexes = { @Index(name="expense_k1", columnList="expense_category"),
         @Index(name="expense_k12", columnList="spent_date")})
 
-public class Expense extends AuditedEntity{
+public class Expense extends AuditedEntity {
 
 
 
@@ -55,6 +55,11 @@ public class Expense extends AuditedEntity{
     @Getter @Setter
     @Column(name="amount")
     private Long amount;
+
+
+    @Getter @Setter
+    @Column(name="cell_index")
+    private String cellIndex;
 
 
 
