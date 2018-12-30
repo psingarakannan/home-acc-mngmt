@@ -41,10 +41,4 @@ public class ExpenseOutput {
     @Getter @Setter
     private AccountCategory accountCategory;
 
-    @Getter @Setter
-    String errorMessage;
-
-    @Getter @Setter
-    String exception;
-
 }

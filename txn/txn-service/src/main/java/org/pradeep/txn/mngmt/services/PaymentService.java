@@ -1,5 +1,7 @@
 package org.pradeep.txn.mngmt.services;
 
+import org.pradeep.platform.beans.TxnInput;
+import org.pradeep.platform.beans.TxnOutput;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,4 +10,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PaymentService {
+
+    public TxnOutput pay(TxnInput txnInput){
+
+
+        return new TxnOutput ();
+    }
+
 }

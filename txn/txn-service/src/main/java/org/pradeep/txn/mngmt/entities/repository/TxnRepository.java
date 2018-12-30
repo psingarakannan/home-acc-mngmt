@@ -11,6 +11,9 @@ import java.util.List;
  * @author psingarakannan on 28/12/18
  **/
 public interface TxnRepository extends JpaRepository<Txn, String>, TxnRepositoryCustom {
-    List<Txn> findByAccount(AccountCategory accountCategory);
+/*
+    List<Txn> findByAccountCategory(AccountCategory accountCategory);
+*/
 
 }
+

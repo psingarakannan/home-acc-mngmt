@@ -1,8 +1,6 @@
 package org.pradeep.txn.mngmt.entities.service.impl;
 
 import org.hibernate.Session;
-import org.pradeep.platform.enums.AccountCategory;
-import org.pradeep.platform.enums.ExpenseCategory;
 import org.pradeep.txn.mngmt.entities.Txn;
 import org.pradeep.txn.mngmt.entities.repository.TxnRepository;
 import org.pradeep.txn.mngmt.entities.service.TxnService;
@@ -18,13 +16,15 @@ import java.util.stream.Collectors;
 /**
  * @author psingarakannan on 28/12/18
  **/
-@Service
+@Service("txnService")
 public class TxnServiceImpl implements TxnService {
-    @Autowired
-    private TxnRepository txnRepository;
+
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    private TxnRepository txnRepository;
 
 
     @Override
@@ -85,13 +85,4 @@ public class TxnServiceImpl implements TxnService {
         getDao ().deleteInBatch ( entities );
     }
 
-    @Override
-    public List <Txn> findByExpenseCategory(ExpenseCategory expenseCategory) {
-        return null;
-    }
-
-    @Override
-    public List <Txn> findByAccountCategory(AccountCategory accountCategory) {
-        return null;
-    }
 }

@@ -1,10 +1,10 @@
-package org.pradeep.exp.mngmt.controllers;
+package org.pradeep.txn.mngmt.api.controllers;
 
 import org.pradeep.exp.mngmt.entities.Expense;
 import org.pradeep.exp.mngmt.entities.service.ExpenseEntityService;
-import org.pradeep.platform.beans.ExcelInput;
-import org.pradeep.platform.beans.ExpenseInput;
-import org.pradeep.platform.beans.ExpenseOutput;
+import org.pradeep.platform.beans.*;
+import org.pradeep.txn.mngmt.services.PaymentService;
+import org.pradeep.txn.mngmt.services.XLService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,14 +18,20 @@ import java.util.stream.Collectors;
  **/
 
 @RestController
-@RequestMapping("/expense")
-public class ExpenseController  {
+@RequestMapping("/txn")
+public class PaymentController {
 
     @Autowired
     @Qualifier("expenseEntityService")
     private ExpenseEntityService expenseEntityService;
 
-    @GetMapping ("/ping")
+    @Autowired
+    private XLService xlService;
+
+    @Autowired
+    private PaymentService paymentService;
+
+    @GetMapping("/ping")
     public String ping(){
         return "pong";
     }
@@ -45,8 +51,9 @@ public class ExpenseController  {
     }
 
 
-    @PostMapping ("/post")
-    public @ResponseBody  ExpenseOutput addExpenses(@RequestBody ExpenseInput expenseInput){
+    @PostMapping("/post")
+    public @ResponseBody
+    ExpenseOutput addExpenses(@RequestBody ExpenseInput expenseInput){
 
         Expense expense = new Expense () ;
         BeanUtils.copyProperties ( expenseInput, expense );
@@ -55,4 +62,23 @@ public class ExpenseController  {
         return new ExpenseOutput ();
     }
 
+    @PostMapping ("/excel")
+    public @ResponseBody  ExpenseOutput addExpensesThruExcel(@RequestBody ExcelInput excelInput) throws Exception{
+
+        List<ExpenseInput> expenseInputList = xlService.mapExcelToExpenseInput ( excelInput );
+
+        expenseInputList
+                .forEach ( expenseInput1->{
+                    Expense expense = new Expense () ;
+                    BeanUtils.copyProperties ( expenseInput1, expense );
+                    expenseEntityService.saveOrUpdate ( expense );
+                } );
+        return new ExpenseOutput ();
+    }
+    @PostMapping ("/pay")
+    public @ResponseBody
+    TxnOutput pay(@RequestBody TxnInput txnInput) throws Exception{
+
+        return paymentService.pay ( txnInput );
+    }
 }

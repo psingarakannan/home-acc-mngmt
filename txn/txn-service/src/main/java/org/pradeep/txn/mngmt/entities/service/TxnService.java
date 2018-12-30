@@ -1,7 +1,5 @@
 package org.pradeep.txn.mngmt.entities.service;
 
-import org.pradeep.platform.enums.AccountCategory;
-import org.pradeep.platform.enums.ExpenseCategory;
 import org.pradeep.txn.mngmt.entities.Txn;
 import org.pradeep.txn.mngmt.entities.repository.TxnRepository;
 
@@ -26,8 +24,10 @@ public interface TxnService {
     void delete(Txn entity);
     void deleteAll(Txn entity);
     void deleteInBatch(Collection<Txn> entities);
+/*
 
     List<Txn> findByExpenseCategory(ExpenseCategory expenseCategory);
     List<Txn> findByAccountCategory(AccountCategory accountCategory);
 
+*/
 }

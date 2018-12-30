@@ -21,8 +21,10 @@ import java.util.stream.Collectors;
 public class ExpenseEntityServiceImpl implements ExpenseEntityService {
     @Autowired
     private ExpenseRepository expenseRepository;
+
     @PersistenceContext
     private EntityManager entityManager;
+
 
     @Override
     public ExpenseRepository getDao() {

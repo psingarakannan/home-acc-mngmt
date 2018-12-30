@@ -1,22 +1,34 @@
 package org.pradeep.platform.hibernate;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.zaxxer.hikari.HikariDataSource;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.beans.PropertyVetoException;
 
 /**
  * @author psingarakannan on 9/12/18
  **/
 @Configuration
-@EnableJpaAuditing
-@EnableJpaRepositories("org.pradeep.exp.mngmt")
+/*
+@EnableTransactionManagement
+*/
+/*
+@EnableJpaRepositories(basePackages = {"org.pradeep.exp.mngmt.entities","org.pradeep.exp.mngmt.entities","org.pradeep.acc.mngmt.entities"})
+*/
+/*
+@EnableJpaRepositories(basePackages = {"org.pradeep.exp.mngmt.entities","org.pradeep.exp.mngmt.entities","org.pradeep.acc.mngmt.entities"})
+*/
+
 public class HibernateConfig {
 
 
@@ -55,7 +67,59 @@ public class HibernateConfig {
     @Value("${database.unreturnedConnectionTimeout:0}") private int unreturnedConnectionTimeout;
     @Value("${database.debugUnreturnedConnectionStackTraces:false}") private Boolean debugUnreturnedConnectionStackTraces;
 
+    @Bean
+    @ConfigurationProperties("app.datasource")
+    public HikariDataSource dataSource() {
+        return DataSourceBuilder.create().type(HikariDataSource.class).build();
+    }
 
+/*
+    @Bean
+    @ConfigurationProperties("spring.datasource")
+    public HikariDataSource dataSource() {
+        return DataSourceBuilder.create().type(HikariDataSource.class).build();
+    }
+
+    public String[] getPackagesToScan(){
+
+        return new String[]{"org.pradeep.exp.mngmt.entities","org.pradeep.exp.mngmt.entities","org.pradeep.acc.mngmt.entities"};
+    }
+
+    @Bean(name = "entityManagerFactory")
+    public EntityManagerFactory entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean ();
+        emf.setDataSource(dataSource ());
+//        emf.setJpaVendorAdapter(jpaVendorAdapter);
+        emf.setPackagesToScan(getPackagesToScan ());
+        emf.setPersistenceUnitName("default");
+        emf.afterPropertiesSet();
+        return emf.getObject();
+    }
+
+    @Bean
+    public SessionFactory getSessionFactory() {
+        if (entityManagerFactory().unwrap(SessionFactory.class) == null) {
+            throw new NullPointerException("factory is not a hibernate factory");
+        }
+        return entityManagerFactory().unwrap(SessionFactory.class);
+    }
+*/
+
+/*    @Bean
+    public DataSource dataSource() {
+        HikariDataSource ds = new HikariDataSource ();
+        ds.setMaximumPoolSize(100);
+        ds.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+        ds.addDataSourceProperty("url", "jdbc:mysql://localhost:3306/test");
+        ds.addDataSourceProperty("user", "root");
+        ds.addDataSourceProperty("password", "password");
+        ds.addDataSourceProperty("cachePrepStmts", true);
+        ds.addDataSourceProperty("prepStmtCacheSize", 250);
+        ds.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
+        ds.addDataSourceProperty("useServerPrepStmts", true);
+        return ds;
+    }*/
+/*
     @Bean
     @Autowired
     public DataSource dataSource(){
@@ -85,7 +149,7 @@ public class HibernateConfig {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
 /*    @Bean
     public Properties hibernateProperties() {
