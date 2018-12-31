@@ -28,24 +28,7 @@
         </dependency>
         <dependency>
             <groupId>org.pradeep</groupId>
-            <artifactId>expense-management-service</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.pradeep</groupId>
-            <artifactId>acc-mngmt-service</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.pradeep</groupId>
             <artifactId>txn-service</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>        <dependency>
-            <groupId>org.pradeep</groupId>
-            <artifactId>platform</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

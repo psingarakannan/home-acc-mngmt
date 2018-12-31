@@ -1,5 +1,6 @@
 package org.pradeep.txn.mngmt.services;
 
+import flexjson.JSONSerializer;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -7,9 +8,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.joda.time.DateTime;
 import org.pradeep.platform.beans.ExcelInput;
 import org.pradeep.platform.beans.ExpenseInput;
+import org.pradeep.platform.beans.TxnInput;
 import org.pradeep.platform.enums.AccountCategory;
 import org.pradeep.platform.enums.ExpenseCategory;
+import org.pradeep.platform.enums.TxnType;
 import org.pradeep.platform.utils.CoreHelper;
+import org.pradeep.platform.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -28,7 +32,7 @@ import java.util.stream.StreamSupport;
 @Service
 public class XLService {
 
-    private Map<Integer, String> columnHeaderMap = new HashMap <Integer, String> (  ){{
+    private Map<Integer, String> accountColumnHeaderMap = new HashMap <Integer, String> (  ){{
         put(0, "ID");
         put(1, "SPENT_DATE");
         put(2, "DESCRIPTION");
@@ -38,7 +42,7 @@ public class XLService {
         put(6, "AMOUNT");
     }};
 
-    public List<ExpenseInput> mapExcelToExpenseInput(ExcelInput excelInput) throws Exception{
+    public List<TxnInput> mapExpenseToTxnInput(ExcelInput excelInput) throws Exception{
 
         System.out.println (CoreHelper.deepSerialize ( excelInput ) );
         if(StringUtils.hasText ( excelInput.getExcelPath () )){
@@ -72,35 +76,38 @@ public class XLService {
             return
 
                     targetStream
-                            .filter ( r -> r.getRowNum () == 0 || r.getRowNum ()>excelInput.getLastAccessedRow () )
+                            .filter ( r -> r.getRowNum () == 0 || r.getRowNum ()>=excelInput.getLastAccessedRow () )
                             .map ( this::createExpenseInput )
                             .filter ( Optional::isPresent  )
                             .map ( Optional::get )
-                            .filter ( expenseInput -> expenseInput.getAmount ()!=null && expenseInput.getAmount ()>0 )
+                            .peek ( txnInput -> txnInput.setUsername ( excelInput.getUserName () ) )
+
+                            .filter ( txnInput -> txnInput.getExpenseInput ().getAmount ()!=null && txnInput.getExpenseInput ().getAmount ()>0 )
                             .collect ( Collectors.toList ( ) );
         }
     }
-    private Optional<ExpenseInput> createExpenseInput( Row row){
-        System.out.println ("Accessing row "+row.getRowNum () );
+    private Optional<TxnInput> createExpenseInput( Row row){
 
         Iterator<Cell> cellIterator = row.iterator();
 
         Stream<Cell> targetStream = StreamSupport.stream(
                 Spliterators.spliteratorUnknownSize(cellIterator, Spliterator.ORDERED),
                 false);
-
+        TxnInput txnInput = new TxnInput ();
         ExpenseInput expenseInput = new ExpenseInput ();
         expenseInput.setCellIndex ( row.getSheet ().getSheetName () +"::"+ row.getRowNum () );
-
         targetStream
                 .forEach ( cell -> fetchData ( cell, expenseInput )  );
+        txnInput.setTxnType ( TxnType.EXPENSE );
+        txnInput.setExpenseInput ( expenseInput );
+        System.out.println ("Accessing row "+row.getRowNum () + " with txninput "+ JsonUtils.deepSerialize ( txnInput) );
 
-        return Optional.of(expenseInput);
+        return Optional.of(txnInput);
     }
 
     private void fetchData(Cell cell, ExpenseInput expenseInput){
         if(cell.getRowIndex () == 0){
-            if( columnHeaderMap.get ( cell.getColumnIndex () ).equalsIgnoreCase ( cell.getStringCellValue () ) ){
+            if( accountColumnHeaderMap.get ( cell.getColumnIndex () ).equalsIgnoreCase ( cell.getStringCellValue () ) ){
                 return;
             }
             throw new UnknownFormatConversionException("Column heading mapping is incorrect "+cell.getColumnIndex ()+" rowindex "+cell.getRowIndex ());
@@ -150,7 +157,7 @@ public class XLService {
     public static void main(String[] args) throws Exception{
         ExcelInput excelInput = new ExcelInput ();
         excelInput.setLastAccessedRow ( 0 );
-        List<ExpenseInput> list = new XLService ().mapExcelToExpenseInput ( excelInput );
+        List<TxnInput> list = new XLService ().mapExpenseToTxnInput ( excelInput );
 
         System.out.println (list );
     }

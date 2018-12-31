@@ -21,5 +21,6 @@ public class ExcelInput {
 
     private String cellIndex;
 
+    private String userName;
 
 }

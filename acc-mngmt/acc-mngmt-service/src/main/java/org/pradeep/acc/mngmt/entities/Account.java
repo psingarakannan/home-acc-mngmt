@@ -2,6 +2,8 @@ package org.pradeep.acc.mngmt.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.pradeep.platform.enums.AccountCategory;
+import org.pradeep.platform.enums.AccountType;
 import org.pradeep.platform.enums.TxnType;
 import org.pradeep.platform.hibernate.AuditedEntity;
 
@@ -21,19 +23,19 @@ public class Account extends AuditedEntity {
     @Id
     @Column(name="id") private Long id;
 
-
     @Getter @Setter
     @Column(name="description")
     private String description;
 
     @Getter @Setter
     @Column(name="name")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private AccountCategory name;
 
-    @Getter @Setter
     @Column(name="type")
     @Enumerated(EnumType.STRING)
-    private TxnType txnType;
+    @Getter @Setter
+    private AccountType accountType;
 
     @Getter @Setter
     @Column(name="balance")

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.pradeep.platform.enums.AccountCategory;
 import org.pradeep.platform.enums.PaymentMode;
+import org.pradeep.platform.enums.TxnStatus;
 import org.pradeep.platform.enums.TxnType;
 import org.pradeep.platform.hibernate.AuditedEntity;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,6 +20,10 @@ import java.util.Date;
         @Index(name="idx_txn_desc", columnList="description")})
 public class Txn extends AuditedEntity {
 
+
+    public Txn(){
+        this.txnStatus = TxnStatus.PENDING;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -98,6 +103,8 @@ public class Txn extends AuditedEntity {
     @Column(name="cell_index")
     private String cellIndex;
 
-
+    @Getter @Setter
+    @Column(name="status")
+    private TxnStatus txnStatus;
 
 }

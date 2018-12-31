@@ -15,8 +15,6 @@ public class TxnInput {
 
     private ExpenseInput expenseInput;
 
-    private ExcelInput excelInput;
-
     private Date txnDate;
 
     private String description;
@@ -38,5 +36,11 @@ public class TxnInput {
     private String externalRefNumber4;
 
     private String externalRefNumber5;
+
+    private Long expenseId;
+
+    private Long accountId;
+
+    private Long txnId;
 
 }

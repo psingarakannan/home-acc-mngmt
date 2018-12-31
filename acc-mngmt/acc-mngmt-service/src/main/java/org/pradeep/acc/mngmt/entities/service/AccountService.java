@@ -2,6 +2,7 @@ package org.pradeep.acc.mngmt.entities.service;
 
 import org.pradeep.acc.mngmt.entities.Account;
 import org.pradeep.acc.mngmt.entities.repository.AccountRepository;
+import org.pradeep.platform.enums.AccountCategory;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,6 +20,7 @@ public interface AccountService {
     void saveOrUpdate(Account entity);
     void saveOrUpdateInTransaction(Account entity);
     void saveOrUpdateAll(Collection<Account> entity);
+    Account findByName(AccountCategory name);
 
     void delete(Long id);
     void delete(Account entity);

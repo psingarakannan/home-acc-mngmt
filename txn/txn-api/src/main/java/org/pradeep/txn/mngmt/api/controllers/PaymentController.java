@@ -8,6 +8,7 @@ import org.pradeep.txn.mngmt.services.XLService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/txn")
+@Transactional
 public class PaymentController {
 
     @Autowired
@@ -65,7 +67,7 @@ public class PaymentController {
     @PostMapping ("/excel")
     public @ResponseBody  ExpenseOutput addExpensesThruExcel(@RequestBody ExcelInput excelInput) throws Exception{
 
-        List<ExpenseInput> expenseInputList = xlService.mapExcelToExpenseInput ( excelInput );
+        List<TxnInput> expenseInputList = xlService.mapExpenseToTxnInput ( excelInput );
 
         expenseInputList
                 .forEach ( expenseInput1->{
@@ -81,4 +83,10 @@ public class PaymentController {
 
         return paymentService.pay ( txnInput );
     }
+    @PostMapping ("excel/pay")
+    public @ResponseBody List<TxnOutput> excelPay(@RequestBody ExcelInput excelInput ) throws Exception{
+
+        return paymentService.excelPay ( excelInput );
+    }
+
 }

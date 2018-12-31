@@ -1,5 +1,6 @@
 package org.pradeep.txn.mngmt.entities.service;
 
+import org.pradeep.platform.beans.TxnInput;
 import org.pradeep.txn.mngmt.entities.Txn;
 import org.pradeep.txn.mngmt.entities.repository.TxnRepository;
 
@@ -16,6 +17,7 @@ public interface TxnService {
     List<Txn> findAll();
     List<Txn> findByIds(Collection<Long> ids);
 
+    Txn createTxn(TxnInput txnInput);
     void saveOrUpdate(Txn entity);
     void saveOrUpdateInTransaction(Txn entity);
     void saveOrUpdateAll(Collection<Txn> entity);

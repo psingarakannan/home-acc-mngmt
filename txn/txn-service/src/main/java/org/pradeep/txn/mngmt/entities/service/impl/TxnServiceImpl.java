@@ -1,9 +1,12 @@
 package org.pradeep.txn.mngmt.entities.service.impl;
 
 import org.hibernate.Session;
+import org.pradeep.platform.beans.TxnInput;
+import org.pradeep.platform.hibernate.BaseServiceImpl;
 import org.pradeep.txn.mngmt.entities.Txn;
 import org.pradeep.txn.mngmt.entities.repository.TxnRepository;
 import org.pradeep.txn.mngmt.entities.service.TxnService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +20,7 @@ import java.util.stream.Collectors;
  * @author psingarakannan on 28/12/18
  **/
 @Service("txnService")
-public class TxnServiceImpl implements TxnService {
+public class TxnServiceImpl extends BaseServiceImpl implements TxnService {
 
 
     @PersistenceContext
@@ -37,6 +40,13 @@ public class TxnServiceImpl implements TxnService {
         return getDao ().findById ( id.toString () ).orElseGet ( null );
     }
 
+    public Txn createTxn(TxnInput txnInput){
+        Txn txn = new Txn ();
+        BeanUtils.copyProperties ( txnInput, txn );
+        this.saveOrUpdate ( txn );
+        return txn;
+    }
+
     @Override
     public List<Txn> findAll() {
         return getDao ().findAll ();    }
@@ -50,13 +60,14 @@ public class TxnServiceImpl implements TxnService {
 
     @Override
     public void saveOrUpdate(Txn entity) {
-        saveOrUpdateInTransaction ( entity );
+        super.saveOrUpdate ( entity );
     }
 
     @Override
     public void saveOrUpdateInTransaction(Txn entity) {
-        entityManager.unwrap(Session.class).saveOrUpdate(entity);
+        super.saveOrUpdateInTransaction ( entity );
     }
+
 
     @Override
     public void saveOrUpdateAll(Collection <Txn> entity) {
